@@ -13,31 +13,32 @@ def aes_encrypt():
         return {"error": "Missing parameters"}, 400
 
     hashed_key = hashlib.sha256(data.get('key').encode('utf-8')).digest()
-    cipher = AES.new(hashed_key, AES.MODE_EAX)
+    cipher = AES.new(hashed_key, AES.MODE_GCM)
     nonce = cipher.nonce
     cipher_text, tag = cipher.encrypt_and_digest(data.get('message').encode('ascii'))
 
-    return {'ciphertext': base64.b64encode(cipher_text).decode(),
-            'nonce': base64.b64encode(nonce).decode(),
-            'tag': base64.b64encode(tag).decode()
-    }, 200
+    encrypted_data = nonce + tag + cipher_text
+
+    return {'encrypted': base64.b64encode(encrypted_data).decode()}, 200
 
 @encryption_blueprint.route('/aes/decrypt', methods=['GET'])
 def aes_decrypt():
     data = request.get_json() # fetch data from request
 
-    if not data.get('ciphertext') or not data.get('nonce') or not data.get('tag') or not data.get('key'):
+    if not data.get('encrypted') or not data.get('key'):
         return {"error": "Missing parameters"}, 400
 
     hashed_key = hashlib.sha256(data.get('key').encode('utf-8')).digest()
-    cipher_text_b64 = base64.b64decode(data.get('ciphertext'))
-    nonce_b64 = base64.b64decode(data.get('nonce'))
-    tag_b64 = base64.b64decode(data.get('tag'))
 
-    cipher = AES.new(hashed_key, AES.MODE_EAX, nonce=nonce_b64)
+    encrypted_data_b64 = base64.b64decode(data.get('encrypted'))
+    nonce = encrypted_data_b64[:16]
+    tag = encrypted_data_b64[16:32]
+    ciphertext = encrypted_data_b64[32:]
+
+    cipher = AES.new(hashed_key, AES.MODE_GCM, nonce=nonce)
 
     try:
-        decrypted_data = cipher.decrypt_and_verify(cipher_text_b64, tag_b64)
+        decrypted_data = cipher.decrypt_and_verify(ciphertext, tag)
         return {'Decrypted': decrypted_data.decode('ascii')}, 200
     except ValueError:
-        return {'Decryption failed': 'Invalid cipher text, nonce, tag or key'}, 500
+        return {'Decryption failed': 'Invalid cipher text, nonce, tag or key'}, 401
