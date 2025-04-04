@@ -3,5 +3,3 @@ __pycache__/
 routes/__pycache__/
 .idea/
 .env
-routes/image_handling.py
-templates/home.html

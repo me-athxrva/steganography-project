@@ -27,3 +27,12 @@ def aes_decrypt(encrypted_data, key):
         return decrypted_data.decode('ascii')
     except ValueError:
         return 'Decryption failed'
+
+
+def toBinary(text):
+    text_binary = ''.join(format(ord(char), '08b') for char in text)
+    return text_binary
+
+def toAscii(binary):
+    ascii_text = ''.join(chr(int(binary[i:i+8], 2)) for i in range(0, len(binary), 8))
+    return ascii_text
