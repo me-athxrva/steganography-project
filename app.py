@@ -1,10 +1,23 @@
 from flask import Flask
-from routes.aes import encryption_blueprint
 from routes.user import user_blueprint
+from flask_jwt_extended import JWTManager
+import os
+from dotenv import load_dotenv
+
+load_dotenv() # loading environment variables from.env file
 
 app = Flask(__name__)
 
-app.register_blueprint(encryption_blueprint, url_prefix='/api')
+# Session configuration
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
+
+# JWT configuration
+app.config['JWT_SECRET_KEY'] = os.getenv('JWT_KEY')
+app.config['JWT_TOKEN_LOCATION'] = ['cookies']
+app.config['JWT_COOKIE_SECURE'] = False # False for development mode only
+JWTManager(app)
+
+# route registration
 app.register_blueprint(user_blueprint, url_prefix='/')
 
 if __name__ == '__main__':
