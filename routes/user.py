@@ -1,20 +1,27 @@
 import os
 from flask_jwt_extended import create_access_token, jwt_required, set_access_cookies, get_jwt_identity, \
     unset_jwt_cookies
-from flask import Blueprint, render_template, request, session, jsonify
+from flask import Blueprint, render_template, request, session, jsonify, make_response, redirect
 from routes.db import mongo
 from datetime import timedelta
+from routes.guest import  create_guest_token
 
 user_blueprint = Blueprint('user', __name__)
-
 
 @user_blueprint.route('/', methods=['GET'])
 @jwt_required(optional=True)
 def home():
     user = get_jwt_identity()
-    if not user:
-        return {'error': 'You are unauthorized bro!'}, 401
-    return render_template('home.html', user=user)
+    guest_token = request.cookies.get('guest_token')
+    logges_token = request.cookies.get('access_token_cookie')
+    if logges_token:
+        return render_template('home.html')
+    if not user and not guest_token:
+        resp = make_response(render_template('home.html'))
+        guest_token = create_guest_token()
+        resp.set_cookie('guest_token', guest_token, max_age=1800)
+        return resp
+    return render_template('home.html')
 
 @user_blueprint.route('/auth/register', methods=['POST'])
 def auth_register():
@@ -71,14 +78,17 @@ def auth_login():
     )
 
     response = jsonify({"message": "Login successful"})
+    response.delete_cookie('guest_token')
     set_access_cookies(response, access_token)
     return response
 
 
-@user_blueprint.route('/auth/logout', methods=['POST'])
-@jwt_required()
+@user_blueprint.route('/auth/logout', methods=['GET'])
+@jwt_required(optional=True)
 def auth_logout():
     session.pop('email', None)
-    response = jsonify({"message": "Logout successful"})
+    response = make_response(redirect('/'))
     unset_jwt_cookies(response)
+    for cookie in request.cookies:
+        response.set_cookie(cookie, '', expires=0)
     return response

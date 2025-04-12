@@ -1,0 +1,211 @@
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Myeongjo&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@100..900&display=swap');
+@font-face {
+    font-family: 'googleSans';
+    src: url('/static/assets/fonts/GoogleSans-Regular.ttf');
+}
+
+*, html{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    user-select: none;
+    /* border: 1px solid red; */
+}
+body{
+    background-color: #DAEF68;
+}
+.nanum-myeongjo-regular {
+    font-family: "Nanum Myeongjo", serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+/* navbar */
+nav{
+    font-family: "Nanum Myeongjo", serif;
+    padding: 30px 100px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: absolute;
+    z-index: 2;
+    width: 100%;
+}
+nav #logo{
+    font-weight: 400;
+    font-size: 2rem;
+    & a{
+        text-decoration: none;
+        color: initial;
+    }
+}
+nav #nav-links{
+    display: flex;
+    gap: 50px;
+}
+#nav-links > div{
+    padding: 10px;
+    font-size: 1.1rem;
+    font-weight: 400;
+    cursor: pointer;
+}
+
+/* main container */
+#app{
+    /* background-color: red; */
+    position: relative;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    padding: 6% 10%;
+    gap: 50px;
+}
+#app .app-containers{
+    width: 50%;
+    height: 100%;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* staic-content */
+#app-static #app-title{
+    font-family: "Nanum Myeongjo", serif;
+    text-transform: capitalize;
+    font-size: 6vw;
+    font-weight: 400;
+    display: flex;
+    flex-direction: column;
+}
+#app-static #app-title span:nth-child(1){
+    font-size: 3.5rem;
+}
+#app-static #app-desc{
+    font-family: 'googleSans', sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 100;
+    font-size: 0.9rem;
+    padding: 5px;
+    margin-top: 10px;
+}
+.app-containers-inner{
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
+    margin-top: 50px;
+    margin-left: 5px;
+    row-gap: 5px;
+}
+.app-containers-inner .btn{
+    background-color: transparent;
+    width: fit-content;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 5px;
+    font-family: "Noto Sans Mono", monospace;
+    font-optical-sizing: auto;
+    font-weight: 600;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    & svg{
+        fill: #000;
+    }
+}
+.btn:nth-child(2) svg{
+    border-radius: 50%;
+    fill: white;
+    background-color: #000;
+    padding: 4px 2px;
+}
+
+/* dynamic content */
+#dynamic{
+    display: inline-flex !important;
+    place-items: center;
+    row-gap: 20px;
+}
+#file-input-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+#r-inp{
+    display: none;
+}
+#img-inp{
+    height: 100%;
+    width: 80%;
+    border: 2px dotted black;
+    padding: 50px 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    row-gap: 10px;
+    cursor: pointer;
+}
+#inp-ico svg{
+    fill: #000;
+    width: 80px;
+    height: 80px;
+}
+#inp-txt{
+    font-family: "Noto Sans Mono", monospace;
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 5px;
+}
+
+#encoding-value-container{
+    width: 80%;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    row-gap: 10px;
+}
+#key-inp-container{
+    width: 80%;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    row-gap: 10px;
+}
+#key-desc{
+    font-family: "Noto Sans Mono", monospace;
+    font-size: 0.8rem;
+    width: 100%;
+}
+.inp{
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid #000;
+    color: black;
+    padding: 10px;
+    width: 100%;
+    &:focus{
+        outline: none;
+        box-shadow: none;
+    }
+}
+#submit-btn{
+    background-color: #000;
+    text-align: center;
+    cursor: pointer;
+    color: #fff;
+    padding: 15px 20px;
+    border-radius: 50px;
+    font-family: 'googleSans', sans-serif;
+    font-size: 0.8rem;
+}
