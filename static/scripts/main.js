@@ -12,13 +12,13 @@ function events(){
     r_inp.addEventListener('change', () => {
         const file = r_inp.files[0];
         if (file.length > 1){
-            alert('Please select 1 file at a time!');
+            alert('Please select 1 file at a time! 😒');
             r_inp.value = '';
         }
         if (file && file.type.startsWith('image/')) {
           inp_txt.textContent = `Selected ${file.name}`;
         } else {
-          alert('Please select a valid image file.');
+          alert('Please select a valid image file. 😅');
           r_inp.value = '';
         }
     });
@@ -31,8 +31,13 @@ async function sendEncodeRequest(){
     const enc_key = document.getElementById('key').value;
     const file = r_inp.files[0];
 
+    if (enc_key.length==0 || enc_val.length==0) {
+        alert('fill up everything dude! 🫠');
+        return;
+    }
+
     if (!file || !enc_val ||!enc_key)  {
-        return alert('Incomplete data selected!');
+        return alert('Incomplete data selected! 😅');
     }
 
     document.getElementById('encode-btn').disabled = true;
@@ -52,12 +57,17 @@ async function sendEncodeRequest(){
         if (!response.ok) {
             document.getElementById('encode-btn').disabled = false;
             document.getElementById('encode-btn').textContent = 'ENCODE';
-            return alert(response.status);
+            console.log('Error:', response.status);
+            return alert('Internal server error 🤕');
         }
         const blob =  await response.blob();
         const imgURL = URL.createObjectURL(blob);
 
-        const imgTag = document.getElementById('resp-img');
+        const imgTag = document.getElementById('result-img');
+        openResult();
+        document.getElementById('download-result-btn').disabled = false;
+        document.getElementById('result-img').style.display = 'flex';
+
         if (imgTag) {
             imgTag.src = imgURL;
         }
@@ -100,14 +110,23 @@ async function sendDecodeRequest(){
         if (!response.ok) {
             document.getElementById('decode-btn').disabled = false;
             document.getElementById('decode-btn').textContent = 'DECODE';
+            alert('Unable to decode image, please check your key! 🫣');
             return console.log(response.status);
         }
         const data = await response.json();
+        if (data['data']==='Decryption failed!'){
+            alert('Please check your key! 🫣');
+            return;
+        }
+        openResult();
 
         document.getElementById('decode-btn').disabled = false;
         document.getElementById('decode-btn').textContent = 'DECODE';
+        document.getElementById('copy-result-btn').disabled = false;
+        document.getElementById('decoded-text-result').style.display = 'flex';
+        document.getElementById('decoded-text-result').textContent = data['data'];
 
-        return alert(data['data']);
+        return;
 
     } catch (error) {
         document.getElementById('decode-btn').disabled = false;
@@ -145,6 +164,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    loadContent('/encode'); // load initial content
+    loadContent('/encode');
 });
 

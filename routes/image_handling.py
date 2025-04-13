@@ -78,9 +78,6 @@ def lsb_decode_route():
     if img is None:
         return {'error': 'Failed to read image file'}, 500
 
-    if not user_key:
-        return {'data': lsb_decode(img)}, 200
-
     from routes.aes import aes_decrypt
     decrypted_data = aes_decrypt(lsb_decode(img), user_key)
 

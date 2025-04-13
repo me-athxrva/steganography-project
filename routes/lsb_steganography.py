@@ -29,7 +29,6 @@ def lsb_decode(img):
 
                 if binary_data.endswith("1111111111111110"):
                     binary_data = binary_data[:-16]
-                    # Convert binary string to text
                     from routes.aes import toAscii
                     message = toAscii(binary_data)
                     return message

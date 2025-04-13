@@ -26,8 +26,7 @@ def aes_decrypt(encrypted_data, key):
         decrypted_data = cipher.decrypt_and_verify(ciphertext, tag)
         return decrypted_data.decode('ascii')
     except ValueError:
-        return 'Decryption failed invalid key'
-
+        return 'Decryption failed!'
 
 def toBinary(text):
     text_binary = ''.join(format(ord(char), '08b') for char in text)

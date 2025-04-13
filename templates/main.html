@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/main.css') }}">
-    <title>s1ego</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/dependencies.css') }}">
+    <title>stego | steganography tool</title>
 </head>
 <body>
     <nav>
@@ -28,8 +29,25 @@
         </div>
         <div class="app-containers" id="dynamic"></div>
     </section>
+    <section id="info-container">
+            <div id="info">
+                <button id="close-result">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>
+                </button>
+                <div id="result">
+                     <img id="result-img" src="" alt="resultant encoded image">
+                     <div id="decoded-text-result"></div>
+                </div>
+                <div id="download-result">
+                    <button class="result-btn" disabled id="download-result-btn">DOWNLOAD</button>
+                    <button class="result-btn" disabled id="copy-result-btn">COPY</button>
+                </div>
+            </div>
+    </section>
 </body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.7/gsap.min.js" integrity="sha512-f6bQMg6nkSRw/xfHw5BCbISe/dJjXrVGfz9BSDwhZtiErHwk7ifbmBEtF9vFW8UNIQPhV2uEFVyI/UHob9r7Cw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="{{ url_for('static', filename='scripts/fingerprint.js') }}" type="module"></script>
 <script src="{{ url_for('static', filename='scripts/dynamic.js') }}"></script>
+<script src="{{ url_for('static', filename='scripts/anm.js') }}"></script>
 <script src="{{ url_for('static', filename='scripts/main.js') }}"></script>
 </html>
