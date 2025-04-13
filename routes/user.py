@@ -15,6 +15,8 @@ def home():
     user = get_jwt_identity()
     guest_token = request.cookies.get('guest_token')
     fingerprint = request.cookies.get('fingerprint')
+    if not fingerprint:
+        return redirect('/auth/redirect')
     logged_token = request.cookies.get('access_token_cookie')
     if logged_token:
         return render_template('main.html')
@@ -24,6 +26,10 @@ def home():
         resp.set_cookie('guest_token', guest_token, max_age=1800, httponly=True)
         return resp
     return render_template('main.html')
+
+@user_blueprint.route('/auth/redirect', methods=['GET'])
+def auth_redirect():
+    return render_template('access_denied.html')
 
 @user_blueprint.route('/decode', methods=['GET'])
 @jwt_required(optional=True)

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>stego | steganography tool</title>
+</head>
+<body>
+    you've done somthing fishy wait...🤧
+</body>
+<script src="{{ url_for('static', filename='scripts/fingerprint.js') }}" type="module"></script>
+<script>
+    function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+    }
+
+    setInterval(() => {
+        const fingerprint = getCookie('fingerprint');
+        console.log(fingerprint);
+        if (fingerprint) {
+            window.location.href = '/';
+        }
+    }, 100);
+
+</script>
+</html>

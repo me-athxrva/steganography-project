@@ -60,6 +60,7 @@
     padding: 20px;
     background-color: #1f1f1f;
     display: none;
+    overflow-y: scroll;
 }
 
 .result-btn{

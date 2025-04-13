@@ -54,6 +54,13 @@ async function sendEncodeRequest(){
             credentials: 'include',
         });
 
+        if (response.status === 401) {
+            alert('Guest trials exhausted. Please login! 😊');
+            document.getElementById('encode-btn').disabled = false;
+            document.getElementById('encode-btn').textContent = 'ENCODE';
+            return;
+        }
+
         if (!response.ok) {
             document.getElementById('encode-btn').disabled = false;
             document.getElementById('encode-btn').textContent = 'ENCODE';
@@ -90,6 +97,7 @@ async function sendDecodeRequest(){
 
     if (!file)  {
         return alert('No image selected!');
+        return;
     }
 
     document.getElementById('decode-btn').disabled = true;
@@ -115,6 +123,8 @@ async function sendDecodeRequest(){
         }
         const data = await response.json();
         if (data['data']==='Decryption failed!'){
+            document.getElementById('decode-btn').disabled = false;
+            document.getElementById('decode-btn').textContent = 'DECODE';
             alert('Please check your key! 🫣');
             return;
         }
