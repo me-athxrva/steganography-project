@@ -11,13 +11,14 @@ user_blueprint = Blueprint('user', __name__)
 @user_blueprint.route('/', methods=['GET'])
 @jwt_required(optional=True)
 def home():
+    print('user entered')
     user = get_jwt_identity()
     guest_token = request.cookies.get('guest_token')
     fingerprint = request.cookies.get('fingerprint')
     logged_token = request.cookies.get('access_token_cookie')
     if logged_token:
         return render_template('main.html')
-    if not user and not guest_token and not fingerprint:
+    if not user and not guest_token:
         resp = make_response(render_template('main.html'))
         guest_token = create_guest_token()
         resp.set_cookie('guest_token', guest_token, max_age=1800, httponly=True)
