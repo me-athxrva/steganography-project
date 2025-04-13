@@ -1,5 +1,5 @@
 from flask import Blueprint, request, send_file, jsonify
-from flask_jwt_extended import jwt_required, get_jwt, verify_jwt_in_request, decode_token
+from flask_jwt_extended import jwt_required, verify_jwt_in_request, decode_token
 import cv2
 import numpy as np
 import io
@@ -65,9 +65,11 @@ def lsb_encode_route():
 @image_blueprint.route('/lsb_stego/decode', methods=['POST'])
 @jwt_required(optional=True)
 def lsb_decode_route():
+    from routes.lsb_steganography import lsb_decode
     user_img = request.files['image']
-    user_key = request.form['key']
-    if not user_img or user_img.filename == '' or len(user_key) == 0 or not user_key:
+    user_key = request.form.get('key')
+
+    if not user_img or user_img.filename == '':
         return {'error': 'No image or key provided'}, 400
 
     file_bytes = np.frombuffer(user_img.read(), dtype=np.uint8)
@@ -76,7 +78,9 @@ def lsb_decode_route():
     if img is None:
         return {'error': 'Failed to read image file'}, 500
 
-    from routes.lsb_steganography import lsb_decode
+    if not user_key:
+        return {'data': lsb_decode(img)}, 200
+
     from routes.aes import aes_decrypt
     decrypted_data = aes_decrypt(lsb_decode(img), user_key)
 

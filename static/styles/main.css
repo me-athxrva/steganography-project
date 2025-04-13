@@ -199,7 +199,7 @@ nav #nav-links{
         box-shadow: none;
     }
 }
-#submit-btn{
+.submit-btn{
     background-color: #000;
     text-align: center;
     cursor: pointer;

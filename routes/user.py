@@ -13,15 +13,26 @@ user_blueprint = Blueprint('user', __name__)
 def home():
     user = get_jwt_identity()
     guest_token = request.cookies.get('guest_token')
-    logges_token = request.cookies.get('access_token_cookie')
-    if logges_token:
-        return render_template('home.html')
-    if not user and not guest_token:
-        resp = make_response(render_template('home.html'))
+    fingerprint = request.cookies.get('fingerprint')
+    logged_token = request.cookies.get('access_token_cookie')
+    if logged_token:
+        return render_template('main.html')
+    if not user and not guest_token and not fingerprint:
+        resp = make_response(render_template('main.html'))
         guest_token = create_guest_token()
-        resp.set_cookie('guest_token', guest_token, max_age=1800)
+        resp.set_cookie('guest_token', guest_token, max_age=1800, httponly=True)
         return resp
-    return render_template('home.html')
+    return render_template('main.html')
+
+@user_blueprint.route('/decode', methods=['GET'])
+@jwt_required(optional=True)
+def decode():
+    return render_template('decode.html')
+
+@user_blueprint.route('/encode', methods=['GET'])
+@jwt_required(optional=True)
+def encode():
+    return render_template('encode.html')
 
 @user_blueprint.route('/auth/register', methods=['POST'])
 def auth_register():
