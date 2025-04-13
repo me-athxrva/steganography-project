@@ -162,6 +162,20 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.target.id === 'decode-btn') {
             sendDecodeRequest();
         }
+
+        if (e.target.id === 'copy-result-btn') {
+            navigator.clipboard.writeText(document.getElementById('decoded-text-result').textContent);
+            alert('Text copied to clipboard! 🫡');
+        }
+
+        if (e.target.id === 'download-result-btn') {
+            const a = document.createElement('a');
+            const file = new Blob([document.getElementById('result-img').src], { type: 'image/jpeg' });
+            a.href = URL.createObjectURL(file);
+            a.download = 'encoded_image.jpg';
+            a.click();
+            URL.revokeObjectURL(a.href);
+        }
     });
 
     loadContent('/encode');
