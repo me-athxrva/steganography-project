@@ -35,7 +35,7 @@ The system extracts the hidden data using LSB decoding and decrypts it using the
 
 ## API Endpoints
 
-### **POST** `/image/lsb_stego/encode`
+### **POST** `/api/lsb_stego/encode`
 #### Description:
 Encodes a secret message into an image.
 
@@ -50,7 +50,7 @@ Encodes a secret message into an image.
 
 ---
 
-### **POST** `/image/lsb_stego/decode`
+### **POST** `/api/lsb_stego/decode`
 #### Description:
 Decodes the secret message from an encoded image.
 
@@ -69,12 +69,12 @@ Decodes the secret message from an encoded image.
 ### **Blueprint:** `image_handling.py`
 Handles all image-related routes for encoding and decoding messages.
 
-- **`/lsb_stego/encode:`**
+- **`/api/lsb_stego/encode:`**
   - Validates input.
   - Encrypts the message using AES.
   - Encodes the encrypted data into the image using LSB steganography.
 
-- **`/lsb_stego/decode:`**
+- **`/api/lsb_stego/decode:`**
   - Extracts the hidden data using LSB decoding.
   - Decrypts the data with AES using the provided key.
 
