@@ -1,5 +1,5 @@
 #info-container{
-    position: absolute;
+    position: fixed;
     z-index: 100;
     backdrop-filter: blur(3px);
     width: 100vw;
@@ -49,7 +49,7 @@
 }
 
 #result>img{
-    height: 100%;
+    width: 100%;
     object-fit: cover;
     display: none;
 }
@@ -60,7 +60,7 @@
     padding: 20px;
     background-color: #1f1f1f;
     display: none;
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 
 .result-btn{

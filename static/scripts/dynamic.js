@@ -1,4 +1,5 @@
 function loadContent(url) {
+    document.getElementById("dynamic").innerHTML = 'Loading...';
     fetch(url)
         .then(response => response.text())
         .then(data => {

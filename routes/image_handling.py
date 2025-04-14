@@ -84,7 +84,6 @@ def lsb_decode_route():
         image = image.convert("RGB")
         img = np.array(image)
         img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
-        print(img)
     except UnidentifiedImageError:
         return {'error': 'Unsupported or corrupted image format'}, 400
 

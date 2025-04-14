@@ -31,4 +31,7 @@
     .app-containers-inner .btn{
         font-size: 1rem;
     }
+    #info{
+        width: 80%;
+    }
 }
