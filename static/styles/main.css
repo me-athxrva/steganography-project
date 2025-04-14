@@ -10,11 +10,9 @@
     margin: 0;
     box-sizing: border-box;
     user-select: none;
-    /* border: 1px solid red; */
 }
 body{
     background-color: #DAEF68;
-    /*background-color: #ccff83;*/
 }
 .nanum-myeongjo-regular {
     font-family: "Nanum Myeongjo", serif;
@@ -118,7 +116,7 @@ nav #nav-links{
         fill: #000;
     }
 }
-.btn:nth-child(2) svg{
+.btn:nth-child(1) svg{
     border-radius: 50%;
     fill: white;
     background-color: #000;

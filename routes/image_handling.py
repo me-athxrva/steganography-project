@@ -4,6 +4,7 @@ import cv2
 import numpy as np
 import io
 from functools import wraps
+from PIL import Image, UnidentifiedImageError
 
 image_blueprint = Blueprint('image', __name__, url_prefix='/image')
 
@@ -72,8 +73,20 @@ def lsb_decode_route():
     if not user_img or user_img.filename == '':
         return {'error': 'No image or key provided'}, 400
 
-    file_bytes = np.frombuffer(user_img.read(), dtype=np.uint8)
-    img = cv2.imdecode(file_bytes, cv2.IMREAD_COLOR)
+    user_img.seek(0)
+    img_bytes = user_img.read()
+
+    if len(img_bytes) == 0:
+        return {'error': 'Uploaded file is empty'}, 400
+
+    try:
+        image = Image.open(io.BytesIO(img_bytes))
+        image = image.convert("RGB")
+        img = np.array(image)
+        img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
+        print(img)
+    except UnidentifiedImageError:
+        return {'error': 'Unsupported or corrupted image format'}, 400
 
     if img is None:
         return {'error': 'Failed to read image file'}, 500

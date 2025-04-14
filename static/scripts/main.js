@@ -178,12 +178,27 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         if (e.target.id === 'download-result-btn') {
-            const a = document.createElement('a');
-            const file = new Blob([document.getElementById('result-img').src], { type: 'image/jpeg' });
-            a.href = URL.createObjectURL(file);
-            a.download = 'encoded_image.jpg';
-            a.click();
-            URL.revokeObjectURL(a.href);
+            const imgElement = document.getElementById('result-img');
+            const blobUrl = imgElement.src;
+
+            if (!blobUrl || !blobUrl.startsWith('blob:')) {
+                console.error('Invalid blob URL');
+                return;
+            }
+
+            fetch(blobUrl)
+                .then(response => response.blob())
+                .then(blob => {
+                    const a = document.createElement('a');
+                    a.href = URL.createObjectURL(blob);
+                    a.download = 'encoded_image.jpg';
+                    a.click();
+
+                    URL.revokeObjectURL(a.href);
+                })
+                .catch(error => {
+                    console.error('Error fetching blob:', error);
+                });
         }
     });
 
