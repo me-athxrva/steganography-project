@@ -1,0 +1,34 @@
+/* Styles for devices with a width of 800px or less */
+@media (max-width: 700px) {
+    nav{
+        padding: 30px 10px;
+    }
+    #app{
+        position: relative;
+        height: 100vh;
+        display: block;
+        padding: 10% 10px;
+        gap: 10px;
+    }
+    nav #nav-links{
+        display: flex;
+        gap: 10px;
+    }
+    #app .app-containers{
+        width: 100%;
+    }
+
+    #app-static #app-title{
+        font-size: 13vw;
+    }
+    #app-static #app-title span:nth-child(1){
+        font-size: 2.5rem;
+    }
+    #app-static #app-desc{
+        width: 80%;
+    }
+
+    .app-containers-inner .btn{
+        font-size: 1rem;
+    }
+}

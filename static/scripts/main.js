@@ -97,7 +97,6 @@ async function sendDecodeRequest(){
 
     if (!file)  {
         return alert('No image selected!');
-        return;
     }
 
     document.getElementById('decode-btn').disabled = true;

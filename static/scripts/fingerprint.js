@@ -1,4 +1,4 @@
-import FingerprintJS from 'https://openfpcdn.io/fingerprintjs/v3';
+import FingerprintJS from '{{ url_for("static", filename="scripts/fingerprintJS.js") }}';
 
 FingerprintJS.load().then(fp => {
     fp.get().then(result => {

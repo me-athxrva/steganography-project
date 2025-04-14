@@ -5,11 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>stego | steganography tool</title>
 </head>
-<body>
-    you've done somthing fishy wait...🤧
-</body>
-<script src="{{ url_for('static', filename='scripts/fingerprint.js') }}" type="module"></script>
-<script>
+<body style="background-color: #DAEF68"></body>
+
+<script type="module">
+      import FingerprintJS from '{{ url_for("static", filename="scripts/fingerprintJS.js") }}';
+
+      FingerprintJS.load().then(fp => {
+        fp.get().then(result => {
+          const visitorId = result.visitorId;
+          document.cookie = `fingerprint=${visitorId}; path=/; max-age=${60 * 60 * 24 * 7}; SameSite=Lax`;
+        });
+      });
+
     function getCookie(name) {
         const value = `; ${document.cookie}`;
         const parts = value.split(`; ${name}=`);
@@ -21,6 +28,7 @@
         console.log(fingerprint);
         if (fingerprint) {
             window.location.href = '/';
+            clearInterval();
         }
     }, 100);
 
