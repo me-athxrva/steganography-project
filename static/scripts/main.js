@@ -157,7 +157,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         if (e.target.id === 'dev') {
-            window.location.href = 'https://github.com/me-athxrva';
+            window.location.href = 'https://atharvadeore.me';
         }
 
         if (e.target.id === 'login') {
